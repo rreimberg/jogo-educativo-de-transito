@@ -3,22 +3,6 @@ import flash.display.Shape;
 import flash.display.Stage;
 
 
-class Main {
-
-    static function main() {
-        var stage = Lib.current.stage;
-        var board = new Main.GameBoard(stage, 1200, 800);
-
-        try {
-            board.draw(20, 120);
-        } catch (msg : String) {
-            trace(msg);
-        }
-    }
-
-}
-
-
 class GameBoard {
 
     var fieldSize : Int;
@@ -28,8 +12,14 @@ class GameBoard {
     var stage : Stage;
     var x : Float;
     var y : Float;
+    var fieldTextFormat : flash.text.TextFormat;
 
     public function new(stage, width, height) {
+
+        this.fieldTextFormat = new flash.text.TextFormat();
+        this.fieldTextFormat.font = "Times New Roman";
+        this.fieldTextFormat.size = 16;
+        this.fieldTextFormat.color=0xFF0000;
 
         this.width = width;
         this.height = height;
@@ -77,29 +67,65 @@ class GameBoard {
         var x = 0;
         var y = 0;
         var list = new Array();
+        var color;
+        var direction = 'right';
 
         for (i in 0...this.totalFields) {
 
+            color = i%2==0?0xd1d1d1:0xe1e1e1;
+
             var field = new Shape();
-            field.graphics.beginFill(0xd1d1d1);
+            field.graphics.beginFill(color);
             field.graphics.drawRoundRect(0, 0, this.fieldSize, this.fieldSize, 10);
             field.x = this.x + x;
             field.y = this.y + y;
             this.stage.addChild(field);
 
-            if (y < (this.height - this.fieldSize)) {
+            // Write text inside field
+            var p = new flash.text.TextField();
+            p.text = "" + i;
+            p.setTextFormat(this.fieldTextFormat);
+            p.x = field.x;
+            p.y = field.y;
+            this.stage.addChild(p);
+
+            // Arrange fields
+            if (direction == 'right') {
                 x += this.fieldSize;
                 if (x >= this.width) {
                     x -= this.fieldSize;
-                    y += this.fieldSize;
+                    direction = 'down';
                 }
-            } else {
-
-                y = this.height - this.fieldSize;
+            }
+            if (direction == 'down') {
+                y += this.fieldSize;
+                if (y >= this.height) {
+                    y -= this.fieldSize;
+                    direction = 'left';
+                }
+            }
+            if (direction == 'left') {
                 x -= this.fieldSize;
             }
 
             list.push(field);
+        }
+    }
+
+}
+
+
+// To infinity and beyond!
+class Main {
+
+    static function main() {
+        var stage = Lib.current.stage;
+        var board = new Main.GameBoard(stage, 1080, 720);
+
+        try {
+            board.draw(22, 120);
+        } catch (msg : String) {
+            trace(msg);
         }
     }
 

@@ -3,4 +3,4 @@ Jogo Flash desenvolvido utilizando Haxe para participar do 7º Prêmio CET de Ed
 
 Comando para compilar o código para flash:
 
-haxe -swf out/jogo-educativo-de-transito.swf -main Main -swf-version 15 -swf-header 960:640:60:f68712
+haxe -swf out/jogo-educativo-de-transito.swf -main Main -swf-version 15 -swf-header 1200:800:60:f68712
