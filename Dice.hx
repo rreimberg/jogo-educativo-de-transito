@@ -1,5 +1,6 @@
 import Math;
 
+
 class Dice {
 
     var sides : Int;

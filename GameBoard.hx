@@ -1,8 +1,15 @@
+import flash.Lib;
+
 import flash.display.Shape;
 import flash.display.Stage;
 
+import Dice;
+import Player;
+
+
 class GameBoard {
 
+    // drawable objects
     var fieldSize : Int;
     var totalFields : Int;
     var width : Int;
@@ -10,9 +17,16 @@ class GameBoard {
     var stage : Stage;
     var x : Float;
     var y : Float;
+    var fields : Array<Shape>;
     var fieldTextFormat : flash.text.TextFormat;
 
-    public function new(stage, width, height) {
+    // game play objects
+    var dice : Dice;
+    var players : Array<Player>;
+
+    public function new(width, height) {
+
+        this.stage = Lib.current.stage;
 
         this.fieldTextFormat = new flash.text.TextFormat();
         this.fieldTextFormat.font = "Times New Roman";
@@ -21,8 +35,9 @@ class GameBoard {
 
         this.width = width;
         this.height = height;
-        this.stage = stage;
 
+        this.fields = new Array();
+        this.players = new Array();
     }
 
     public function draw(fields, size) {
@@ -33,7 +48,15 @@ class GameBoard {
         this._validateFieldsDrawing();
         this._drawFrame();
         this._drawFields();
+    }
 
+    public function addPlayer(player) {
+        this.players.push(player);
+        player.move(this.fields[0]);
+    }
+
+    public function addDice(dice) {
+        this.dice = dice;
     }
 
     private function _validateFieldsDrawing() {
@@ -64,7 +87,6 @@ class GameBoard {
         // Draw a simple game path according to frame dimensions
         var x = 0;
         var y = 0;
-        var list = new Array();
         var color;
         var direction = 'right';
 
@@ -106,7 +128,7 @@ class GameBoard {
                 x -= this.fieldSize;
             }
 
-            list.push(field);
+            this.fields.push(field);
         }
     }
 
