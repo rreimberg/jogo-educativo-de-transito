@@ -3,8 +3,10 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.display.Stage;
 import flash.events.MouseEvent;
+import flash.events.TimerEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import flash.utils.Timer;
 
 import GameBoard;
 import Dice;
@@ -26,6 +28,7 @@ class Match {
     var players : Array<Player>;
     var gameStarted : Bool = false;
     var currentPlayerIndex : Int = 0;
+    var timer : Timer;
 
     public function new() {
 
@@ -49,6 +52,9 @@ class Match {
 
         this.playerName = new TextField();
         this.playerName.setTextFormat(this.textFormat);
+
+        this.timer = new Timer(2000, 1);
+        this.timer.addEventListener(TimerEvent.TIMER_COMPLETE, this.showRestart);
     }
 
     public function addBoard(board) {
@@ -71,13 +77,31 @@ class Match {
         this.turn();
     }
 
+    public function finish() {
+        this.gameStarted = false;
+        this.popup.removeEventListener(MouseEvent.CLICK, this.playGame);
+
+        this.showPopup("VENCEU!!!");
+
+        this.timer.start();
+    }
+
+    public function restart(event:MouseEvent) {
+        for (player in this.players) {
+            player.move(this.board.getInitialField());
+        }
+
+        this.message.removeEventListener(MouseEvent.CLICK, this.restart);
+        this.start();
+    }
+
     public function turn() {
         if (this.gameStarted == true) {
             this.showPopup("JOGUE O DADO");
         }
     }
 
-    public function showPopup(messageText) {
+    public function showPopup(messageText, restartButton=false) {
 
         this.stage.addChild(this.popup);
 
@@ -91,12 +115,15 @@ class Match {
         this.message.y = this.popup.y + 100;
         this.stage.addChild(this.message);
 
+        if (restartButton == true) {
+            this.message.addEventListener(MouseEvent.CLICK, this.restart);
+        }
     }
 
     public function hidePopup() {
-        this.stage.removeChild(this.popup);
-        this.stage.removeChild(this.playerName);
         this.stage.removeChild(this.message);
+        this.stage.removeChild(this.playerName);
+        this.stage.removeChild(this.popup);
     }
 
     public function playGame(event:MouseEvent) {
@@ -117,11 +144,12 @@ class Match {
         this.turn();
     }
 
-    public function finish() {
-        this.gameStarted = false;
-        //this.popup.removeEventListener(MouseEvent.CLICK);
 
-        this.showPopup("VENCEU!!!");
+    public function showRestart(event:TimerEvent) {
+        this.timer.stop();
+        this.timer.reset();
+
+        this.showPopup("RECOMEÇAR", true);
     }
 
     private function _nextPlayer() {
