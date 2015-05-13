@@ -45,7 +45,7 @@ class Match {
         this.popup.graphics.beginFill(0x50AB39);
         this.popup.graphics.drawRoundRect(0, 0, 300, 200, 30);
         this.popup.x = this.stage.width / 2 - 150;
-        this.popup.y = this.stage.height / 2 - 200;
+        this.popup.y = this.stage.height / 2 - 100;
 
         this.message = new TextField();
         this.message.setTextFormat(this.textFormat);
@@ -87,11 +87,13 @@ class Match {
     }
 
     public function restart(event:MouseEvent) {
+        this.message.removeEventListener(MouseEvent.CLICK, this.restart);
+
         for (player in this.players) {
             player.move(this.board.getInitialField());
         }
 
-        this.message.removeEventListener(MouseEvent.CLICK, this.restart);
+        this.currentPlayerIndex = 0;
         this.start();
     }
 
@@ -106,7 +108,7 @@ class Match {
         this.stage.addChild(this.popup);
 
         this.playerName.text = this._getCurrentPlayer().getName();
-        this.playerName.x = this.popup.x + 100;
+        this.playerName.x = this.popup.x + 110;
         this.playerName.y = this.popup.y + 10;
         this.stage.addChild(this.playerName);
 
@@ -117,6 +119,7 @@ class Match {
 
         if (restartButton == true) {
             this.message.addEventListener(MouseEvent.CLICK, this.restart);
+            this.playerName.text = "";
         }
     }
 
@@ -143,7 +146,6 @@ class Match {
         this._nextPlayer();
         this.turn();
     }
-
 
     public function showRestart(event:TimerEvent) {
         this.timer.stop();
