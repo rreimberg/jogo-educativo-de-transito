@@ -3,10 +3,6 @@ import flash.Lib;
 import flash.display.Shape;
 import flash.display.Stage;
 
-import Dice;
-import Player;
-
-
 class GameBoard {
 
     // drawable objects
@@ -20,11 +16,7 @@ class GameBoard {
     var fields : Array<Shape>;
     var fieldTextFormat : flash.text.TextFormat;
 
-    // game play objects
-    var dice : Dice;
-    var players : Array<Player>;
-
-    public function new(width, height) {
+    public function new(width, height, fields, size) {
 
         this.stage = Lib.current.stage;
 
@@ -35,28 +27,36 @@ class GameBoard {
 
         this.width = width;
         this.height = height;
-
-        this.fields = new Array();
-        this.players = new Array();
-    }
-
-    public function draw(fields, size) {
-
         this.fieldSize = size;
         this.totalFields = fields;
 
+        this.fields = new Array();
+
+        this.draw();
+    }
+
+    public function getInitialField() {
+        return this.fields[0];
+    }
+
+    public function getFinishField() {
+        return this.fields[this.totalFields - 1];
+    }
+
+    public function getField(position) {
+        if (position < 0)
+            return this.getInitialField();
+
+        if (position >= this.totalFields)
+            return this.getFinishField();
+
+        return this.fields[position];
+    }
+
+    public function draw() {
         this._validateFieldsDrawing();
         this._drawFrame();
         this._drawFields();
-    }
-
-    public function addPlayer(player) {
-        this.players.push(player);
-        player.move(this.fields[0]);
-    }
-
-    public function addDice(dice) {
-        this.dice = dice;
     }
 
     private function _validateFieldsDrawing() {
@@ -95,6 +95,7 @@ class GameBoard {
             color = i%2==0?0xd1d1d1:0xe1e1e1;
 
             var field = new Shape();
+            field.name = "" + i;
             field.graphics.beginFill(color);
             field.graphics.drawRoundRect(0, 0, this.fieldSize, this.fieldSize, 10);
             field.x = this.x + x;

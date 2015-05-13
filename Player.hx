@@ -1,3 +1,5 @@
+import Std.parseInt;
+
 import flash.Lib;
 
 import flash.display.Shape;
@@ -15,6 +17,7 @@ class Player {
 
     // player objects
     var name : String;
+    var currentPosition : Int;
 
     public function new(name, color, position) {
         this.stage = Lib.current.stage;
@@ -25,8 +28,17 @@ class Player {
     }
 
     public function move(field) {
+        this.currentPosition = parseInt(field.name);
         this.pin.x = this.padding + field.x + this.radius * this.position;
         this.pin.y = this.padding + field.y + this.radius * this.position;
+    }
+
+    public function getName() {
+        return this.name;
+    }
+
+    public function getCurrentPosition() {
+        return this.currentPosition;
     }
 
     private function _draw(color) {
