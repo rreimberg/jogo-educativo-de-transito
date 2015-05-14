@@ -1,0 +1,135 @@
+R-1,Parada Obrigatória,R-1.gif
+R-2,Dê a preferência,R-2.gif
+R-3,Sentido proibido,R-3.gif
+R-4A,Proibido virar à esquerda,R-4A.gif
+R-4B,Proibido virar à direita,R-4B.gif
+R-5,Proibido retornar,R-5.gif
+R-6A,Proibido estacionar,R-6A.gif
+R-6B,Estacionamento  regulamentado,R-6B.gif
+R-6C,Proibido parar e estacionar,R-6C.gif
+R-7,Proibido ultrapassar,R-7.gif
+R-8,Proibido mudar de faixa de trânsito,R-8.gif
+R-9,Proibido trânsito de veículos de carga,R-9.gif
+R-10,Proibido trânsito de veículo automotores,R-10.gif
+R-11,Proibido trânsito de veículos de tração animal,R-11.gif
+R-12,Proibido trânsito de bicicletas,R-12.gif
+R-13,Proibido trânsito de máquinas agrícola,R-13.gif
+R-14,Carga máxima permitida,R-14.gif
+R-15,Altura máxima permitida,R-15.gif
+R-16,Largura máxima permitida,R-16.gif
+R-17,Peso máximo permitido por eixo,R-17.gif
+R-18,Comprimento máximo permitido,R-18.gif
+R-19,Velocidade máxima permitida,R-19.gif
+R-20,Proibido acionar buzina ou sinal sonoro,R-20.gif
+R-21,Alfândega,R-21.gif
+R-22,Uso obrigatório de corrente,R-22.gif
+R-23,Conserve-se à direita,R-23.gif
+R-24A,Sentido obrigatório,R-24A.gif
+R-24B,Passagem obrigatório,R-24B.gif
+R-25A,Vire à esquerda,R-25A.gif
+R-25B,Vire à direita,R-25B.gif
+R-25C,Siga em frente ou à esquerda,R-25C.gif
+R-25D,Siga em frente ou à esquerda,R-25D.gif
+R-26,Siga em frente,R-26.gif
+R-27,Veículos lentos usem faixa da direita,R-27.gif
+R-28,Mão dupla,R-28.gif
+R-29,Proibido trânsito de pedestres,R-29.gif
+R-30,Pedestre ande pela esquerda,R-30.gif
+R-31,Pedestre ande pela direita,R-31.gif
+R-32,Circulaçao exclusiva de ônibus,R-32.gif
+R-33,Sentido circular na rotatória,R-33.gif
+R-34,Circulaçao exclusiva de bicicletas,R-34.gif
+R-35A,Ciclista, transite à esquerda,R-35A.gif
+R-35B,Ciclista, transite à direita,R-35B.gif
+R-36A,Ciclista à esquerda, pedestre a direita,R-36A.gif
+R-36B,Pedestre à esquerda, ciclista a direita,R-36B.gif
+R-37,Proibido trânsito de motocicleta, motonetas e ciclomotores,R-37.gif
+R-38,Proibido trânsito de ônibus,R-38.gif
+R-39,Circulaçao exclusiva de caminhão,R-39.gif
+R-40,Trânsito proibido a carros de mão,R-40.gif
+A-1a,Curva Acentuada à Esquerda,1.gif
+A-1b,Curva Acentuada à Direita,2.gif
+A-2a,Curva à Esquerda,3.gif
+A-2b,Curva à Direita,4.gif
+A-3a,Pista Sinuosa à Direita,5.gif
+A-3b,Pista Sinuosa à Esquerda,6.gif
+A-4a,Curva Acentuda em "S" à Esquerda,8.gif
+A-4b,Curva Acentuda em "S" à Direita,7.gif
+A-5a,Curva em "S" à Direita,9.gif
+A-5b,Curva em "S" à Esquerda,10.gif
+A-6,Cruzamento de Vias,11.gif
+A-7a,Via lateral à esquerda ,13.gif
+A-7b,Via lateral à direita ,12.gif
+A-8,Interseção em “T” ,14.gif
+A-9,Bifurcação em “Y” ,15.gif
+A-10a,Entroncamento oblíquo à esquerda ,16.gif
+A-10b,Entroncamento oblíquo à direita,17.gif
+A-11a,Junções sucessivas contrárias, primeira à esquerda ,19.gif
+A-11b,Junções Sucessivas Contrárias 1ª à direita,18.gif
+A-12,Inteseção em Círculo,20.gif
+A-13a,Confluência à Direita,13a.gif
+A-13b,Confluência à Esquerda,21.gif
+A-14,Semáforo a Frente,23.gif
+A-15,Parada Obrigatória à Frente,24.gif
+A-16,Bonde,44.gif
+A-17,Pista Irregular,25.gif
+A-18,Saliência ou Lombada,26.gif
+A-19,Depressão,27.gif
+A-20a,Declive Acentuado,28.gif
+A-20b,Aclive Acentuado,29.gif
+A-21a,Estreitamento de Pista ao Centro,30.gif
+A-21b,Estreitamento de Pista à Esquerda,31.gif
+A-21c,Estreitamento de Pista à Direita,32.gif
+A-22,Ponte Estreita,33.gif
+A-23,Ponte Móvel,34.gif
+A-24,Obras,55.gif
+A-25,Mão Dupla Adiante,35.gif
+A-26a,Sentido Único,57.gif
+A-26b,Sentido Duplo,58.gif
+A-27,Área com Desmoronamento,36.gif
+A-28,Pista Escorregadia,37.gif
+A-29,Projeção de Cascalho,38.gif
+A-30,Ciclistas,45.gif
+A-31,Maquinaria Agrícola,46.gif
+A-32a,Passagem de Pedestres,47.gif
+A-33a,Área Escolar,48.gif
+A-33b,Passagem Sinalizada de Escolares,33b.gif
+A-34,Crianças,49.gif
+A-35,Cuidado Animais,50.gif
+A-36,Animais Selvagens,51.gif
+A-37,Altura Limitada,39.gif
+A-38,Largura Limitada,40.gif
+A-39,Passagem de Nível sem Barreira,52.gif
+A-40,Passagem de Nível com Barreira,53.gif
+A-41,Cruz de Sto. André,59.gif
+A-42a,Início de Pista Dupla,41.gif
+A-42b,Fim de Pista Dupla,42.gif
+A-43,Aeroporto,54.gif
+A-44,Vento Lateral,43.gif
+A-45,Rua sem Saída,56.gif
+SA-blue1,Serviço Mecânico,blue1.gif
+SA-blue2,Abastecimento,blue2.gif
+SA-blue3,Serviço Sanitário,blue3.gif
+SA-blue4,Restaurante,blue4.gif
+SA-blue5,Hotel,blue5.gif
+SA-blue6,Serviço Telefônico,blue6.gif
+SA-blue7,Área de Campismo,blue7.gif
+SA-blue8,Aeroporto,blue8.gif
+SA-blue9,Estacionamento de Trailer,blue9.gif
+SA-blue10,Área de Estacionamento,blue10.gif
+SA-blue11,Transporte sobre Água,blue11.gif
+SA-blue12,Ponto de Parada,blue12.gif
+SA-blue13,Passagem protegida para Pedestres,blue13.gif
+SA-blue14,Pronto Socorro,blue14.gif
+I-green1,Sinal de Posicionamento de Localidades,green1.gif
+I-green2,Sinal de pré-indicação de Direção e Sentido para Saídas,green2.gif
+I-green3,Placa de localização,green3.gif
+I-green4,Pré-Indicação,green4.gif
+I-green5,Sinal de Indicação de Direção,green5.gif
+I-green6,Marcos Quilométricos,green6.gif
+I-azul1,Placa indicativa de sentido,azul1.gif
+I-azul2,Placa de Identificação quilométrica,azul2.gif
+I-azul3,Placa de Identificação de limite de Municípios, divisa de Estados, fronteira, perímetro urbano ,azul3.gif
+I-branco1,Placa de Identificação - Rodovias e Estradas Pan-Americanas,branco1.gif
+I-branco2,Placa de Identificação - Rodovias e Estradas Federais,branco2.gif
+I-branco3,Placa de Identificação - Rodovias e Estradas Estaduais,branco3.gif
