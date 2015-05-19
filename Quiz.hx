@@ -13,6 +13,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.utils.Timer;
 
+import openfl.Assets;
 
 import Match;
 import Utils;
@@ -108,11 +109,13 @@ class Quiz {
         this.image.graphics.drawRect(0,0,30,30);
         this.image.graphics.endFill();
 
-        this.urlreq = new URLRequest("../imagens/placas/R-25A.gif");
-        this.url = new URLLoader(urlreq);
-        this.picloader = new Loader();
+        this.gotpic();
 
-        this.url.addEventListener(Event.COMPLETE, this.getlist);
+        //this.urlreq = new URLRequest("../imagens/placas/R-25A.gif");
+        //this.url = new URLLoader(urlreq);
+        //this.picloader = new Loader();
+
+        //this.url.addEventListener(Event.COMPLETE, this.getlist);
 
         //Utils.alignHorizontalyCenter(this.image, this.quizPopup);
         this.image.x = this.quizPopup.x;
@@ -214,12 +217,14 @@ class Quiz {
     }
 
     public function gotpic(evt:Event) {
-        var mm:Bitmap = new Bitmap();
-        mm = evt.target.content;
-        this.image.addChild(mm);
-        mm.x = this.image.x;
-        mm.y = this.image.y;
-        this.picloader.contentLoaderInfo.removeEventListener(Event.COMPLETE, this.gotpic);
+        //var mm:Bitmap = new Bitmap();
+        //mm = evt.target.content;
+
+        var bm = new Bitmap(Assets.getBitmapData("test.png"));
+        this.image.addChild(bm);
+        bm.x = this.image.x;
+        bm.y = this.image.y;
+        //this.picloader.contentLoaderInfo.removeEventListener(Event.COMPLETE, this.gotpic);
         trace('oi');
     }
 
