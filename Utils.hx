@@ -4,8 +4,11 @@ import flash.display.DisplayObject;
 class Utils {
 
     static public function hide(obj:DisplayObject) {
-        obj.x = -1000;
-        obj.y = -1000;
+        obj.visible = false;
+    }
+
+    static public function show(obj:DisplayObject) {
+        obj.visible = true;
     }
 
     static public function alignCenter(obj:DisplayObject, reference:DisplayObject) {
@@ -18,7 +21,7 @@ class Utils {
     }
 
     static public function alignVerticallyCenter(obj:DisplayObject, reference:DisplayObject) {
-        obj.x = (reference.height / 2) - (obj.width / 2);
+        obj.y = (reference.height / 2) - (obj.height / 2);
     }
 
 }

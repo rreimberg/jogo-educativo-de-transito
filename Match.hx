@@ -37,7 +37,13 @@ class Match {
 
         this.stage = Lib.current.stage;
 
+        this.init();
+
         this.players = new Array();
+        this.quiz = new Quiz(this);
+    }
+
+    private function init() {
 
         this.textFormat = new TextFormat();
         this.textFormat.font = "Times New Roman";
@@ -56,10 +62,17 @@ class Match {
         this.playerName = new TextField();
         this.playerName.setTextFormat(this.textFormat);
 
-        this.timer = new Timer(2000, 1);
+        this.timer = new Timer(1200, 1);
         this.timer.addEventListener(TimerEvent.TIMER_COMPLETE, this.showRestart);
 
-        this.quiz = new Quiz(this);
+
+        this.stage.addChild(this.popup);
+        this.stage.addChild(this.playerName);
+        this.stage.addChild(this.message);
+
+        Utils.hide(this.popup);
+        Utils.hide(this.playerName);
+        Utils.hide(this.message);
     }
 
     public function addBoard(board) {
@@ -103,7 +116,7 @@ class Match {
     }
 
     public function turn() {
-        if (this.gameStarted == true) {
+        if (this.gameStarted) {
             this.showPopup("JOGUE O DADO");
         }
     }
@@ -111,17 +124,17 @@ class Match {
     public function showPopup(messageText, restartButton=false) {
 
         Utils.alignCenter(this.popup, this.stage);
-        this.stage.addChild(this.popup);
+        Utils.show(this.popup);
 
         this.playerName.text = this._getCurrentPlayer().getName();
         this.playerName.x = this.popup.x + 110;
         this.playerName.y = this.popup.y + 10;
-        this.stage.addChild(this.playerName);
+        Utils.show(this.playerName);
 
         this.message.text = messageText;
         this.message.x = this.popup.x + 100;
         this.message.y = this.popup.y + 100;
-        this.stage.addChild(this.message);
+        Utils.show(this.message);
 
         if (restartButton == true) {
             this.message.addEventListener(MouseEvent.CLICK, this.restart);

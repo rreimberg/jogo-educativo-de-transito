@@ -42,6 +42,11 @@ class Quiz {
         this.stage = Lib.current.stage;
         this.match = match;
 
+        this.init();
+    }
+
+    private function init() {
+
         this.quizPopup = new Sprite();
         this.image = new TextField();
         this.question = new TextField();
@@ -58,8 +63,26 @@ class Quiz {
         this.buttonToFrame.set(this.awnser3, 3);
         this.buttonToFrame.set(this.awnser4, 4);
 
-        this.timer = new Timer(2000, 1);
+        this.timer = new Timer(1000, 1);
         this.timer.addEventListener(TimerEvent.TIMER_COMPLETE, this.timerListener);
+
+        this.stage.addChild(this.quizPopup);
+        this.stage.addChild(this.image);
+        this.stage.addChild(this.question);
+        this.stage.addChild(this.awnser1);
+        this.stage.addChild(this.awnser2);
+        this.stage.addChild(this.awnser3);
+        this.stage.addChild(this.awnser4);
+        this.stage.addChild(this.resultMessage);
+
+        Utils.hide(this.quizPopup);
+        Utils.hide(this.image);
+        Utils.hide(this.question);
+        Utils.hide(this.awnser1);
+        Utils.hide(this.awnser2);
+        Utils.hide(this.awnser3);
+        Utils.hide(this.awnser4);
+        Utils.hide(this.resultMessage);
     }
 
     public function ask() {
@@ -67,55 +90,53 @@ class Quiz {
         this.quizPopup.graphics.beginFill(0xA2AB39);
         this.quizPopup.graphics.drawRoundRect(0, 0, 300, 400, 30);
         Utils.alignCenter(this.quizPopup, this.stage);
+        Utils.show(this.quizPopup);
 
         //this.message.setTextFormat(this.textFormat);
 
-        image.text = '';
-        image.x = this.stage.width / 2 - 150;
-        image.y = this.quizPopup.y + padding;
-        image.height = 40;
+        this.image.text = '';
+        this.image.x = this.stage.width / 2 - 150;
+        this.image.y = this.quizPopup.y + padding;
+        this.image.height = 40;
 
-        question.text = "Qual o significado dessa placa?";
-        question.x = this.quizPopup.x + padding;
-        question.y = image.y + image.height + padding;
-        question.height = height;
-        question.width = this.quizPopup.width;
+        this.question.text = "Qual o significado dessa placa?";
+        this.question.x = this.quizPopup.x + padding;
+        this.question.y = image.y + image.height + padding;
+        this.question.height = height;
+        this.question.width = this.quizPopup.width;
+        Utils.show(this.question);
 
-        awnser1.text = 'A) Vire a direita';
-        awnser1.x = question.x;
-        awnser1.y = question.y + question.height + padding;
-        awnser1.height = height;
-        awnser1.width = this.quizPopup.width;
-        awnser1.addEventListener(MouseEvent.CLICK, this.awnser);
+        this.awnser1.text = 'A) Vire a direita';
+        this.awnser1.x = question.x;
+        this.awnser1.y = question.y + question.height + padding;
+        this.awnser1.height = height;
+        this.awnser1.width = this.quizPopup.width;
+        this.awnser1.addEventListener(MouseEvent.CLICK, this.awnser);
+        Utils.show(this.awnser1);
 
-        awnser2.text = 'B) Proibido estacionar';
-        awnser2.x = question.x;
-        awnser2.y = awnser1.y + awnser1.height + padding;
-        awnser2.height = height;
-        awnser2.width = this.quizPopup.width;
-        awnser2.addEventListener(MouseEvent.CLICK, this.awnser);
+        this.awnser2.text = 'B) Proibido estacionar';
+        this.awnser2.x = question.x;
+        this.awnser2.y = awnser1.y + awnser1.height + padding;
+        this.awnser2.height = height;
+        this.awnser2.width = this.quizPopup.width;
+        this.awnser2.addEventListener(MouseEvent.CLICK, this.awnser);
+        Utils.show(this.awnser2);
 
-        awnser3.text = 'C) Lombada';
-        awnser3.x = question.x;
-        awnser3.y = awnser2.y + awnser2.height + padding;
-        awnser3.height = height;
-        awnser3.width = this.quizPopup.width;
-        awnser3.addEventListener(MouseEvent.CLICK, this.awnser);
+        this.awnser3.text = 'C) Lombada';
+        this.awnser3.x = question.x;
+        this.awnser3.y = awnser2.y + awnser2.height + padding;
+        this.awnser3.height = height;
+        this.awnser3.width = this.quizPopup.width;
+        this.awnser3.addEventListener(MouseEvent.CLICK, this.awnser);
+        Utils.show(this.awnser3);
 
-        awnser4.text = 'D) Limite de velocidade';
-        awnser4.x = question.x;
-        awnser4.y = awnser3.y + awnser3.height + padding;
-        awnser4.height = height;
-        awnser4.width = this.quizPopup.width;
-        awnser4.addEventListener(MouseEvent.CLICK, this.awnser);
-
-        this.stage.addChild(quizPopup);
-        this.stage.addChild(image);
-        this.stage.addChild(question);
-        this.stage.addChild(awnser1);
-        this.stage.addChild(awnser2);
-        this.stage.addChild(awnser3);
-        this.stage.addChild(awnser4);
+        this.awnser4.text = 'D) Limite de velocidade';
+        this.awnser4.x = question.x;
+        this.awnser4.y = awnser3.y + awnser3.height + padding;
+        this.awnser4.height = height;
+        this.awnser4.width = this.quizPopup.width;
+        this.awnser4.addEventListener(MouseEvent.CLICK, this.awnser);
+        Utils.show(this.awnser4);
 
         /*for(var i:int = 1; i < 4; i++) {
             var btn:Button = this["t" + i.toString()];
@@ -152,7 +173,7 @@ class Quiz {
             this.resultMessage.text = "Resposta Certa :) !!!";
         }
 
-        this.stage.addChild(this.resultMessage);
+        Utils.show(this.resultMessage);
         this.timer.start();
     }
 
