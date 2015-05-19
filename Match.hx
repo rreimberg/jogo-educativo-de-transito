@@ -11,6 +11,8 @@ import flash.utils.Timer;
 import GameBoard;
 import Dice;
 import Player;
+import Quiz;
+import Utils;
 
 
 class Match {
@@ -29,6 +31,7 @@ class Match {
     var gameStarted : Bool = false;
     var currentPlayerIndex : Int = 0;
     var timer : Timer;
+    var quiz : Quiz;
 
     public function new() {
 
@@ -44,8 +47,8 @@ class Match {
         this.popup = new Sprite();
         this.popup.graphics.beginFill(0x50AB39);
         this.popup.graphics.drawRoundRect(0, 0, 300, 200, 30);
-        this.popup.x = this.stage.width / 2 - 150;
-        this.popup.y = this.stage.height / 2 - 100;
+        this.popup.width = 300;
+        this.popup.height = 200;
 
         this.message = new TextField();
         this.message.setTextFormat(this.textFormat);
@@ -55,6 +58,8 @@ class Match {
 
         this.timer = new Timer(2000, 1);
         this.timer.addEventListener(TimerEvent.TIMER_COMPLETE, this.showRestart);
+
+        this.quiz = new Quiz(this);
     }
 
     public function addBoard(board) {
@@ -105,6 +110,7 @@ class Match {
 
     public function showPopup(messageText, restartButton=false) {
 
+        Utils.alignCenter(this.popup, this.stage);
         this.stage.addChild(this.popup);
 
         this.playerName.text = this._getCurrentPlayer().getName();
@@ -124,23 +130,28 @@ class Match {
     }
 
     public function hidePopup() {
-        this.stage.removeChild(this.message);
-        this.stage.removeChild(this.playerName);
-        this.stage.removeChild(this.popup);
+        Utils.hide(this.popup);
+        Utils.hide(this.playerName);
+        Utils.hide(this.message);
     }
 
     public function playGame(event:MouseEvent) {
-
         this.hidePopup();
+        this.dice.roll();
+        this.quiz.ask();
+    }
 
-        var steps = this.dice.roll();
-        var player = this._getCurrentPlayer();
-        var field = this.board.getField(player.getCurrentPosition() + steps);
+    public function resumeGame(rightAwnser) {
 
-        player.move(field);
+        if (rightAwnser) {
+            var player = this._getCurrentPlayer();
+            var field = this.board.getField(player.getCurrentPosition() + this.dice.currentValue());
 
-        if (field == this.board.getFinishField()) {
-            this.finish();
+            player.move(field);
+
+            if (field == this.board.getFinishField()) {
+                this.finish();
+            }
         }
 
         this._nextPlayer();
