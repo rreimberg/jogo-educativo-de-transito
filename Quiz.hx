@@ -1,9 +1,14 @@
 import flash.Lib;
+import flash.display.Bitmap;
+import flash.display.Loader;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 import flash.display.Stage;
+import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.utils.Timer;
@@ -18,7 +23,7 @@ class Quiz {
     // drawable objects
     var stage : Stage;
     var quizPopup : Sprite;
-    var image : TextField;
+    var image : Sprite;
     var question : TextField;
     var awnser1 : TextField;
     var awnser2 : TextField;
@@ -26,6 +31,10 @@ class Quiz {
     var awnser4 : TextField;
 
     var resultMessage : TextField;
+
+    var urlreq:URLRequest;
+    var url:URLLoader;
+    var picloader:Loader;
 
 
     var timer : Timer;
@@ -48,7 +57,7 @@ class Quiz {
     private function init() {
 
         this.quizPopup = new Sprite();
-        this.image = new TextField();
+        this.image = new Sprite();
         this.question = new TextField();
         this.awnser1 = new TextField();
         this.awnser2 = new TextField();
@@ -94,8 +103,19 @@ class Quiz {
 
         //this.message.setTextFormat(this.textFormat);
 
-        this.image.text = '';
-        this.image.x = this.stage.width / 2 - 150;
+        this.image.graphics.lineStyle(1,0);
+        this.image.graphics.beginFill(0xCCCCCC);
+        this.image.graphics.drawRect(0,0,30,30);
+        this.image.graphics.endFill();
+
+        this.urlreq = new URLRequest("../imagens/placas/R-25A.gif");
+        this.url = new URLLoader(urlreq);
+        this.picloader = new Loader();
+
+        this.url.addEventListener(Event.COMPLETE, this.getlist);
+
+        //Utils.alignHorizontalyCenter(this.image, this.quizPopup);
+        this.image.x = this.quizPopup.x;
         this.image.y = this.quizPopup.y + padding;
         this.image.height = 40;
 
@@ -185,6 +205,22 @@ class Quiz {
         this.timer.reset();
 
         this.match.resumeGame(this.rightAnwser);
+    }
+
+    public function getlist(evt:Event) {
+        this.picloader.contentLoaderInfo.addEventListener(Event.COMPLETE, this.gotpic);
+        this.picloader.load(urlreq);
+        this.url.removeEventListener(Event.COMPLETE, this.getlist);
+    }
+
+    public function gotpic(evt:Event) {
+        var mm:Bitmap = new Bitmap();
+        mm = evt.target.content;
+        this.image.addChild(mm);
+        mm.x = this.image.x;
+        mm.y = this.image.y;
+        this.picloader.contentLoaderInfo.removeEventListener(Event.COMPLETE, this.gotpic);
+        trace('oi');
     }
 
 }
