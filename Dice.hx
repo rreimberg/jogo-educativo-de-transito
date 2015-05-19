@@ -4,6 +4,7 @@ import Math;
 class Dice {
 
     var sides : Int;
+    var value : Int;
 
     public function new(sides) {
         this.sides = sides;
@@ -15,7 +16,12 @@ class Dice {
             number = 1;
         }
 
+        this.value = number;
         return number;
+    }
+
+    public function currentValue() {
+        return this.value;
     }
 
 }
