@@ -1,4 +1,5 @@
 import Math;
+import Utils;
 
 
 class Dice {
@@ -11,13 +12,8 @@ class Dice {
     }
 
     public function roll() {
-        var number = Math.round((Math.random() * 1000) % this.sides);
-        if (number == 0) {
-            number = 1;
-        }
-
-        this.value = number;
-        return number;
+        this.value = Utils.random(1, 6);
+        return this.value;
     }
 
     public function currentValue() {
