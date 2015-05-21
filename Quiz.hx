@@ -7,16 +7,14 @@ import flash.display.Stage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
-import flash.net.URLLoader;
-import flash.net.URLRequest;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.utils.Timer;
 
-import openfl.Assets;
-
 import Match;
 import Utils;
+import QuizData;
+import Question;
 
 
 class Quiz {
@@ -25,18 +23,13 @@ class Quiz {
     var stage : Stage;
     var quizPopup : Sprite;
     var image : Sprite;
-    var question : TextField;
-    var awnser1 : TextField;
-    var awnser2 : TextField;
-    var awnser3 : TextField;
-    var awnser4 : TextField;
+    var questionField : TextField;
+    var answer1 : TextField;
+    var answer2 : TextField;
+    var answer3 : TextField;
+    var answer4 : TextField;
 
     var resultMessage : TextField;
-
-    var urlreq:URLRequest;
-    var url:URLLoader;
-    var picloader:Loader;
-
 
     var timer : Timer;
 
@@ -44,9 +37,11 @@ class Quiz {
     var padding = 10;
 
     // quiz objects
-    var buttonToFrame : Map<TextField, Int>;
+    var answerOptions : Map<TextField, String>;
     var match : Match;
     var rightAnwser : Bool;
+    var question : Question;
+    var data : QuizData;
 
     public function new(match) {
         this.stage = Lib.current.stage;
@@ -57,134 +52,135 @@ class Quiz {
 
     private function init() {
 
+        this.data = new QuizData();
+
         this.quizPopup = new Sprite();
         this.image = new Sprite();
-        this.question = new TextField();
-        this.awnser1 = new TextField();
-        this.awnser2 = new TextField();
-        this.awnser3 = new TextField();
-        this.awnser4 = new TextField();
+        this.questionField = new TextField();
+        this.answer1 = new TextField();
+        this.answer2 = new TextField();
+        this.answer3 = new TextField();
+        this.answer4 = new TextField();
 
         this.resultMessage = new TextField();
 
-        this.buttonToFrame = new Map<TextField, Int>();
-        this.buttonToFrame.set(this.awnser1, 1);
-        this.buttonToFrame.set(this.awnser2, 2);
-        this.buttonToFrame.set(this.awnser3, 3);
-        this.buttonToFrame.set(this.awnser4, 4);
+        this.answerOptions = new Map<TextField, String>();
 
         this.timer = new Timer(1000, 1);
         this.timer.addEventListener(TimerEvent.TIMER_COMPLETE, this.timerListener);
 
         this.stage.addChild(this.quizPopup);
         this.stage.addChild(this.image);
-        this.stage.addChild(this.question);
-        this.stage.addChild(this.awnser1);
-        this.stage.addChild(this.awnser2);
-        this.stage.addChild(this.awnser3);
-        this.stage.addChild(this.awnser4);
+        this.stage.addChild(this.questionField);
+        this.stage.addChild(this.answer1);
+        this.stage.addChild(this.answer2);
+        this.stage.addChild(this.answer3);
+        this.stage.addChild(this.answer4);
         this.stage.addChild(this.resultMessage);
 
         Utils.hide(this.quizPopup);
         Utils.hide(this.image);
-        Utils.hide(this.question);
-        Utils.hide(this.awnser1);
-        Utils.hide(this.awnser2);
-        Utils.hide(this.awnser3);
-        Utils.hide(this.awnser4);
+        Utils.hide(this.questionField);
+        Utils.hide(this.answer1);
+        Utils.hide(this.answer2);
+        Utils.hide(this.answer3);
+        Utils.hide(this.answer4);
         Utils.hide(this.resultMessage);
     }
 
     public function ask() {
 
+        this.data.raffle();
+
         this.quizPopup.graphics.beginFill(0xA2AB39);
         this.quizPopup.graphics.drawRoundRect(0, 0, 300, 400, 30);
+        this.quizPopup.width = 300;
         Utils.alignCenter(this.quizPopup, this.stage);
         Utils.show(this.quizPopup);
 
         //this.message.setTextFormat(this.textFormat);
 
-        this.image.graphics.lineStyle(1,0);
-        this.image.graphics.beginFill(0xCCCCCC);
-        this.image.graphics.drawRect(0,0,30,30);
+        this.image.graphics.lineStyle(0, 0);
+        this.image.graphics.beginFill(0xA2AB39);
+        this.image.graphics.drawRect(0, 0, 300, 100);
         this.image.graphics.endFill();
+        this.image.height = 100;
 
-        this.gotpic();
+        Utils.show(this.image);
+        this.image.x = this.quizPopup.x + this.padding;
+        this.image.y = this.quizPopup.y + this.padding;
+        this.image.width = this.quizPopup.width - (this.padding * 2);
 
-        //this.urlreq = new URLRequest("../imagens/placas/R-25A.gif");
-        //this.url = new URLLoader(urlreq);
-        //this.picloader = new Loader();
+        this.image.addChild(this.data.getImage());
+        Utils.alignCenter(this.data.getImage(), this.image);
 
-        //this.url.addEventListener(Event.COMPLETE, this.getlist);
+        var options = this.data.getOptions();
 
-        //Utils.alignHorizontalyCenter(this.image, this.quizPopup);
-        this.image.x = this.quizPopup.x;
-        this.image.y = this.quizPopup.y + padding;
-        this.image.height = 40;
+        this.questionField.text = "Qual o significado dessa placa?";
+        this.questionField.x = this.quizPopup.x + this.padding;
+        this.questionField.y = image.y + image.height + this.padding;
+        this.questionField.height = height;
+        this.questionField.width = this.quizPopup.width;
+        Utils.show(this.questionField);
 
-        this.question.text = "Qual o significado dessa placa?";
-        this.question.x = this.quizPopup.x + padding;
-        this.question.y = image.y + image.height + padding;
-        this.question.height = height;
-        this.question.width = this.quizPopup.width;
-        Utils.show(this.question);
+        this.answerOptions.set(this.answer1, options[0]);
+        this.answer1.text = 'A) ' + options[0];
+        this.answer1.x = this.questionField.x;
+        this.answer1.y = this.questionField.y + this.questionField.height + this.padding;
+        this.answer1.height = height;
+        this.answer1.width = this.quizPopup.width;
+        this.answer1.addEventListener(MouseEvent.CLICK, this.answer);
+        Utils.show(this.answer1);
 
-        this.awnser1.text = 'A) Vire a direita';
-        this.awnser1.x = question.x;
-        this.awnser1.y = question.y + question.height + padding;
-        this.awnser1.height = height;
-        this.awnser1.width = this.quizPopup.width;
-        this.awnser1.addEventListener(MouseEvent.CLICK, this.awnser);
-        Utils.show(this.awnser1);
+        this.answerOptions.set(this.answer2, options[1]);
+        this.answer2.text = 'B) ' + options[1];
+        this.answer2.x = this.questionField.x;
+        this.answer2.y = this.answer1.y + this.answer1.height + this.padding;
+        this.answer2.height = this.height;
+        this.answer2.width = this.quizPopup.width;
+        this.answer2.addEventListener(MouseEvent.CLICK, this.answer);
+        Utils.show(this.answer2);
 
-        this.awnser2.text = 'B) Proibido estacionar';
-        this.awnser2.x = question.x;
-        this.awnser2.y = awnser1.y + awnser1.height + padding;
-        this.awnser2.height = height;
-        this.awnser2.width = this.quizPopup.width;
-        this.awnser2.addEventListener(MouseEvent.CLICK, this.awnser);
-        Utils.show(this.awnser2);
+        this.answerOptions.set(this.answer3, options[2]);
+        this.answer3.text = 'C) ' + options[2];
+        this.answer3.x = this.questionField.x;
+        this.answer3.y = this.answer2.y + this.answer2.height + this.padding;
+        this.answer3.height = this.height;
+        this.answer3.width = this.quizPopup.width;
+        this.answer3.addEventListener(MouseEvent.CLICK, this.answer);
+        Utils.show(this.answer3);
 
-        this.awnser3.text = 'C) Lombada';
-        this.awnser3.x = question.x;
-        this.awnser3.y = awnser2.y + awnser2.height + padding;
-        this.awnser3.height = height;
-        this.awnser3.width = this.quizPopup.width;
-        this.awnser3.addEventListener(MouseEvent.CLICK, this.awnser);
-        Utils.show(this.awnser3);
+        this.answerOptions.set(this.answer4, options[3]);
+        this.answer4.text = 'D) ' + options[3];
+        this.answer4.x = this.questionField.x;
+        this.answer4.y = this.answer3.y + this.answer3.height + this.padding;
+        this.answer4.height = this.height;
+        this.answer4.width = this.quizPopup.width;
+        this.answer4.addEventListener(MouseEvent.CLICK, this.answer);
+        Utils.show(this.answer4);
 
-        this.awnser4.text = 'D) Limite de velocidade';
-        this.awnser4.x = question.x;
-        this.awnser4.y = awnser3.y + awnser3.height + padding;
-        this.awnser4.height = height;
-        this.awnser4.width = this.quizPopup.width;
-        this.awnser4.addEventListener(MouseEvent.CLICK, this.awnser);
-        Utils.show(this.awnser4);
-
-        /*for(var i:int = 1; i < 4; i++) {
-            var btn:Button = this["t" + i.toString()];
-            buttonToFrame[btn] = i;
-            btn.addEventListener(MouseEvent.CLICK, this.onClick);
-        }*/
     }
 
     public function hideQuestion() {
-        Utils.hide(this.question);
-        Utils.hide(this.awnser1);
-        Utils.hide(this.awnser2);
-        Utils.hide(this.awnser3);
-        Utils.hide(this.awnser4);
+        Utils.hide(this.image);
+        Utils.hide(this.questionField);
+        Utils.hide(this.answer1);
+        Utils.hide(this.answer2);
+        Utils.hide(this.answer3);
+        Utils.hide(this.answer4);
+        Utils.hide(this.data.getImage());
     }
 
-    public function awnser(event:MouseEvent) {
-        var option = this.buttonToFrame.get(event.currentTarget);
+    public function answer(event:MouseEvent) {
+        var option = this.answerOptions.get(event.currentTarget);
 
         this.hideQuestion();
 
-        this.rightAnwser = (option==1);
+        this.rightAnwser = this.data.checkAnswer(option);
 
         this.quizPopup.width = 400;
         this.quizPopup.height = 300;
+        Utils.alignCenter(this.quizPopup, this.stage);
 
         this.resultMessage.text = "Resposta ERRADA :( !!!";
         this.resultMessage.x = this.quizPopup.x + this.padding;
@@ -208,24 +204,6 @@ class Quiz {
         this.timer.reset();
 
         this.match.resumeGame(this.rightAnwser);
-    }
-
-    public function getlist(evt:Event) {
-        this.picloader.contentLoaderInfo.addEventListener(Event.COMPLETE, this.gotpic);
-        this.picloader.load(urlreq);
-        this.url.removeEventListener(Event.COMPLETE, this.getlist);
-    }
-
-    public function gotpic(evt:Event) {
-        //var mm:Bitmap = new Bitmap();
-        //mm = evt.target.content;
-
-        var bm = new Bitmap(Assets.getBitmapData("test.png"));
-        this.image.addChild(bm);
-        bm.x = this.image.x;
-        bm.y = this.image.y;
-        //this.picloader.contentLoaderInfo.removeEventListener(Event.COMPLETE, this.gotpic);
-        trace('oi');
     }
 
 }
