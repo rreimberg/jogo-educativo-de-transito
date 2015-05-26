@@ -1,4 +1,5 @@
 import flash.Lib;
+import flash.display.Bitmap;
 import flash.display.Shape;
 import flash.display.Sprite;
 import flash.display.Stage;
@@ -23,6 +24,12 @@ class Match {
     var message : TextField;
     var playerName : TextField;
     var textFormat : TextFormat;
+
+    var player1Popup : Sprite;
+    var player2Popup : Sprite;
+    var player1Winner : Sprite;
+    var player2Winner : Sprite;
+    var dicePlace : Sprite;
 
     // game objects
     var board : GameBoard;
@@ -50,29 +57,49 @@ class Match {
         this.textFormat.size = 25;
         this.textFormat.color = 0x000000;
 
-        this.popup = new Sprite();
-        this.popup.graphics.beginFill(0x50AB39);
-        this.popup.graphics.drawRoundRect(0, 0, 300, 200, 30);
-        this.popup.width = 300;
-        this.popup.height = 200;
+        this.dicePlace = new Sprite();
+        this.dicePlace.graphics.drawRect(0, 0, 100, 100);
+        this.dicePlace.width = 100;
+        this.dicePlace.height = 100;
+        this.dicePlace.x = 50;
+        this.dicePlace.y = 350;
 
-        this.message = new TextField();
-        this.message.setTextFormat(this.textFormat);
+        /*this.player1Popup = new Sprite();
+        this.player1Popup.graphics.drawRect(0, 0, 300, 200);
+        this.player1Popup.width = 300;
+        this.player1Popup.height = 200;
+        this.player1Popup.addChild(new Bitmap(new ImagesResources.Player1PopupBitmapData(0, 0)));
+        this.player1Popup.addEventListener(MouseEvent.CLICK, this.playGame);
 
-        this.playerName = new TextField();
-        this.playerName.setTextFormat(this.textFormat);
+        this.player2Popup = new Sprite();
+        this.player2Popup.graphics.drawRect(0, 0, 300, 200);
+        this.player2Popup.width = 300;
+        this.player2Popup.height = 200;
+        this.player2Popup.addChild(new Bitmap(new ImagesResources.Player2PopupBitmapData(0, 0)));
+        this.player2Popup.addEventListener(MouseEvent.CLICK, this.playGame);
+*/
+        this.player1Winner = new Sprite();
+        this.player1Winner.graphics.drawRect(0, 0, 300, 300);
+        this.player1Winner.width = 300;
+        this.player1Winner.height = 300;
+        this.player1Winner.addChild(new Bitmap(new ImagesResources.Player1WinnerBitmapData(0, 0)));
+        this.player1Winner.addEventListener(MouseEvent.CLICK, this.restart);
+
+        this.player2Winner = new Sprite();
+        this.player2Winner.graphics.drawRect(0, 0, 300, 300);
+        this.player2Winner.width = 300;
+        this.player2Winner.height = 300;
+        this.player2Winner.addChild(new Bitmap(new ImagesResources.Player2WinnerBitmapData(0, 0)));
+        this.player2Winner.addEventListener(MouseEvent.CLICK, this.restart);
 
         this.timer = new Timer(1200, 1);
-        this.timer.addEventListener(TimerEvent.TIMER_COMPLETE, this.showRestart);
+        // this.timer.addEventListener(TimerEvent.TIMER_COMPLETE, this.showRestart);
 
+        this.stage.addChild(this.dicePlace);
+        this.stage.addChild(this.player1Winner);
+        this.stage.addChild(this.player2Winner);
 
-        this.stage.addChild(this.popup);
-        this.stage.addChild(this.playerName);
-        this.stage.addChild(this.message);
-
-        Utils.hide(this.popup);
-        Utils.hide(this.playerName);
-        Utils.hide(this.message);
+        this.hidePopup();
     }
 
     public function addBoard(board) {
@@ -89,23 +116,22 @@ class Match {
     }
 
     public function start() {
-        this.popup.addEventListener(MouseEvent.CLICK, this.playGame);
-
         this.gameStarted = true;
+        this.dicePlace.addChild(this.dice.getImage());
         this.turn();
     }
 
     public function finish() {
         this.gameStarted = false;
-        this.popup.removeEventListener(MouseEvent.CLICK, this.playGame);
 
-        this.showPopup("VENCEU!!!");
+        var popup = this.currentPlayerIndex==0 ? this.player1Winner : this.player2Winner;
 
-        this.timer.start();
+        Utils.alignCenter(popup, this.stage);
+        Utils.show(popup);
     }
 
     public function restart(event:MouseEvent) {
-        this.message.removeEventListener(MouseEvent.CLICK, this.restart);
+        this.hidePopup();
 
         for (player in this.players) {
             player.move(this.board.getInitialField());
@@ -117,40 +143,19 @@ class Match {
 
     public function turn() {
         if (this.gameStarted) {
-            this.showPopup("JOGUE O DADO");
-        }
-    }
-
-    public function showPopup(messageText, restartButton=false) {
-
-        Utils.alignCenter(this.popup, this.stage);
-        Utils.show(this.popup);
-
-        this.playerName.text = this._getCurrentPlayer().getName();
-        this.playerName.x = this.popup.x + 110;
-        this.playerName.y = this.popup.y + 10;
-        Utils.show(this.playerName);
-
-        this.message.text = messageText;
-        this.message.x = this.popup.x + 100;
-        this.message.y = this.popup.y + 100;
-        Utils.show(this.message);
-
-        if (restartButton == true) {
-            this.message.addEventListener(MouseEvent.CLICK, this.restart);
-            this.playerName.text = "";
+            this.dicePlace.addEventListener(MouseEvent.CLICK, this.playGame);
         }
     }
 
     public function hidePopup() {
-        Utils.hide(this.popup);
-        Utils.hide(this.playerName);
-        Utils.hide(this.message);
+        Utils.hide(this.player1Winner);
+        Utils.hide(this.player2Winner);
     }
 
     public function playGame(event:MouseEvent) {
-        this.hidePopup();
+        this.dicePlace.removeEventListener(MouseEvent.CLICK, this.playGame);
         this.dice.roll();
+        this.dicePlace.addChild(this.dice.getImage());
         this.quiz.ask();
     }
 
@@ -169,13 +174,6 @@ class Match {
 
         this._nextPlayer();
         this.turn();
-    }
-
-    public function showRestart(event:TimerEvent) {
-        this.timer.stop();
-        this.timer.reset();
-
-        this.showPopup("RECOMEÇAR", true);
     }
 
     private function _nextPlayer() {
