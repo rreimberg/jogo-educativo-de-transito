@@ -296,7 +296,8 @@ class QuizData {
         this.index.push("A-43");
         this.index.push("A-44");
         this.index.push("A-45");
-        this.index.push("SA-blue1");
+
+        /*this.index.push("SA-blue1");
         this.index.push("SA-blue2");
         this.index.push("SA-blue3");
         this.index.push("SA-blue4");
@@ -322,7 +323,7 @@ class QuizData {
         this.index.push("I-branco1");
         this.index.push("I-branco2");
         this.index.push("I-branco3");
-
+        */
         Utils.shuffle(this.index);
 
     }
