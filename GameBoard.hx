@@ -1,6 +1,8 @@
 import flash.Lib;
 
+import flash.display.Bitmap;
 import flash.display.Shape;
+import flash.display.Sprite;
 import flash.display.Stage;
 
 class GameBoard {
@@ -14,16 +16,10 @@ class GameBoard {
     var x : Float;
     var y : Float;
     var fields : Array<Shape>;
-    var fieldTextFormat : flash.text.TextFormat;
 
     public function new(width, height, fields, size) {
 
         this.stage = Lib.current.stage;
-
-        this.fieldTextFormat = new flash.text.TextFormat();
-        this.fieldTextFormat.font = "Times New Roman";
-        this.fieldTextFormat.size = 16;
-        this.fieldTextFormat.color=0xFF0000;
 
         this.width = width;
         this.height = height;
@@ -73,11 +69,13 @@ class GameBoard {
         this.x = (this.stage.stageWidth - this.width) / 2;
         this.y = (this.stage.stageHeight - this.height) / 2;
 
-        var frame = new Shape();
+        var frame = new Sprite();
         frame.graphics.beginFill(0xffffff);
         frame.graphics.drawRect(0, 0, this.width, this.height);
         frame.x = this.x;
         frame.y = this.y;
+
+        frame.addChild(new Bitmap(new ImagesResources.BoardBitmapData(0, 0)));
 
         this.stage.addChild(frame);
     }
@@ -96,31 +94,23 @@ class GameBoard {
 
             var field = new Shape();
             field.name = "" + i;
-            field.graphics.beginFill(color);
+            //field.graphics.beginFill(color);
             field.graphics.drawRoundRect(0, 0, this.fieldSize, this.fieldSize, 10);
             field.x = this.x + x;
             field.y = this.y + y;
             this.stage.addChild(field);
 
-            // Write text inside field
-            var p = new flash.text.TextField();
-            p.text = "" + i;
-            p.setTextFormat(this.fieldTextFormat);
-            p.x = field.x;
-            p.y = field.y;
-            this.stage.addChild(p);
-
             // Arrange fields
             if (direction == 'right') {
                 x += this.fieldSize;
-                if (x >= this.width) {
+                if (i == 8) {
                     x -= this.fieldSize;
                     direction = 'down';
                 }
             }
             if (direction == 'down') {
                 y += this.fieldSize;
-                if (y >= this.height) {
+                if (i == 13) {
                     y -= this.fieldSize;
                     direction = 'left';
                 }
