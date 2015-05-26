@@ -10,7 +10,7 @@ class Main {
 
     static function main() {
         try {
-            var board = new GameBoard(1080, 720, 22, 120);
+            var board = new GameBoard(1200, 800, 22, 133);
             var dice = new Dice(6);
             var player1 = new Player('JOGADOR 1', 0x00ff00, 1);
             var player2 = new Player('JOGADOR 2', 0x0000ff, 2);
