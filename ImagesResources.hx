@@ -2,6 +2,54 @@ import flash.display.BitmapData;
 
 class ImagesResources {}
 
+// background
+@:bitmap("imagens/layout/board.png")
+class BoardBitmapData extends BitmapData { }
+
+// dado
+@:bitmap("imagens/layout/dice-1.png")
+class Dice1BitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/dice-2.png")
+class Dice2BitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/dice-3.png")
+class Dice3BitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/dice-4.png")
+class Dice4BitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/dice-5.png")
+class Dice5BitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/dice-6.png")
+class Dice6BitmapData extends BitmapData { }
+
+// pergunta
+@:bitmap("imagens/layout/question.png")
+class QuestionBitmapData extends BitmapData { }
+
+// mensagens
+
+@:bitmap("imagens/layout/right1.png")
+class Right1BitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/wrong1.png")
+class Wrong1BitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/player1-popup.png")
+class Player1PopupBitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/player2-popup.png")
+class Player2PopupBitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/player1-winner.png")
+class Player1WinnerBitmapData extends BitmapData { }
+
+@:bitmap("imagens/layout/player2-winner.png")
+class Player2WinnerBitmapData extends BitmapData { }
+
+// placas
 @:bitmap("imagens/placas/R-1.gif")
 class R1BitmapData extends BitmapData { }
 
